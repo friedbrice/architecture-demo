@@ -24,7 +24,7 @@ library
 
 executable abstract-effects-main
   hs-source-dirs: main
-  main-is: Main.hs
+  main-is: main.hs
   build-depends:
     base >= 4.9 && < 5
     , abstract-effects
