@@ -1,6 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module Wiring where
+module Main where
 
 import Effects
 import Logic
@@ -18,8 +18,8 @@ newtype App a = App { runApp :: ReaderT Conf IO a }
 instance HasSomeHandle Conf where
   getSomeHandle conf = someHandle conf
 
-app :: IO ()
-app = do
+main :: IO ()
+main = do
   args <- getArgs
   let appArgs = read (head args)
 

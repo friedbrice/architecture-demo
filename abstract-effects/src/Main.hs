@@ -1,6 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module Wiring where
+module Main where
 
 import Effects
 import Logic
@@ -21,8 +21,8 @@ instance DoSomeAction App where
     let handle = someHandle conf
     liftIO (Some.doAction handle)
 
-app :: IO ()
-app = do
+main :: IO ()
+main = do
   args <- getArgs
   let appArgs = read (head args)
 
