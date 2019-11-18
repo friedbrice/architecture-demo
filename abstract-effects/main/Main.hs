@@ -1,4 +1,6 @@
 module Main where
 
+import Wiring
+
 main :: IO ()
-main = return ()
+main = app
