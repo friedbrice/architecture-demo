@@ -1,0 +1,18 @@
+name: some-library
+version: 0.0.0.1
+author: Daniel Brice
+copyright: 2019 Daniel Brice
+build-type: Simple
+cabal-version: >= 1.10
+
+library
+  hs-source-dirs: lib
+  exposed-modules:
+    SomeLibrary
+  build-depends:
+    base >= 4.9 && < 5
+  exposed: True
+  buildable: True
+  default-language: Haskell2010
+  ghc-options:
+    -Wall
