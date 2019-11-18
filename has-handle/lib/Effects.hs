@@ -1,12 +1,13 @@
 module Effects where
 
-import Control.Monad.IO.Class
+import Control.Monad.Reader
 import qualified SomeLibrary as Some
 
-class HasSomeHandle m where
-  getSomeHandle :: m Some.Handle
+class HasSomeHandle a where
+  getSomeHandle :: a -> Some.Handle
 
-doSomeAction :: (HasSomeHandle m, MonadIO m) => m ()
+doSomeAction :: (HasSomeHandle a, MonadIO m, MonadReader a m) => m ()
 doSomeAction = do
-  handle <- getSomeHandle
-  liftIO $ Some.doAction handle
+  conf <- ask
+  let handle = getSomeHandle conf
+  liftIO (Some.doAction handle)

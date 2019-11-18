@@ -6,13 +6,10 @@ import Effects
 import Logic
 
 import Control.Monad.Reader
+import System.Environment
 import qualified SomeLibrary as Some
 
-data Args = Args { mode :: String, chan :: Int, num :: Int }
-
-getAppArgs :: IO Args
-getAppArgs = undefined
-
+data Args = Args { mode :: String, chan :: Int, num :: Int } deriving Read
 data Conf = Conf { someHandle :: Some.Handle }
 
 newtype App a = App { runApp :: ReaderT Conf IO a }
@@ -21,11 +18,15 @@ newtype App a = App { runApp :: ReaderT Conf IO a }
 instance DoSomeAction App where
   doSomeAction = do
     conf <- ask
-    liftIO $ Some.doAction (someHandle conf)
+    let handle = someHandle conf
+    liftIO (Some.doAction handle)
 
 app :: IO ()
 app = do
-  args <- getAppArgs
-  handle <- Some.makeHandle (mode args) (chan args) (num args)
-  let conf = Conf { someHandle = handle }
-  runReaderT (runApp entryPoint) conf
+  args <- getArgs
+  let appArgs = read (head args)
+
+  handle <- Some.makeHandle (mode appArgs) (chan appArgs) (num appArgs)
+  let appConf = Conf { someHandle = handle }
+
+  runReaderT (runApp entryPoint) appConf
