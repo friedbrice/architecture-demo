@@ -9,10 +9,15 @@ import Control.Monad.Reader
 import System.Environment
 import qualified SomeLibrary as Some
 
-data Args = Args { mode :: String, chan :: Int, num :: Int } deriving Read
-data Conf = Conf { someHandle :: Some.Handle }
+data Args =
+  Args { mode :: String, chan :: Int, num :: Int }
+  deriving Read
 
-newtype App a = App { runApp :: ReaderT Conf IO a }
+data Conf =
+  Conf { someHandle :: Some.Handle }
+
+newtype App a =
+  App { runApp :: ReaderT Conf IO a }
   deriving (Functor, Applicative, Monad, MonadIO, MonadReader Conf)
 
 instance DoSomeAction App where
@@ -23,10 +28,10 @@ instance DoSomeAction App where
 
 main :: IO ()
 main = do
-  args <- getArgs
-  let appArgs = read (head args)
+  cliArgs <- getArgs
+  let args = read (head cliArgs)
 
-  handle <- Some.makeHandle (mode appArgs) (chan appArgs) (num appArgs)
+  handle <- Some.makeHandle (mode args) (chan args) (num args)
   let appConf = Conf { someHandle = handle }
 
   runReaderT (runApp entryPoint) appConf

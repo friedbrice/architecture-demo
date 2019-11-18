@@ -21,5 +21,6 @@ someBranching f xs =
       then doSomeAction
       else return ()
 
-entryPoint :: (HasSomeHandle a, MonadIO m, MonadReader a m) => m ()
+entryPoint :: (HasSomeHandle a, MonadIO m, MonadReader a m)
+           => m ()
 entryPoint = someBranching someFunction someData
