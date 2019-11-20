@@ -9,9 +9,9 @@ data Handle
 -- Imagine it's very costly to make a handle, so we don't want to
 -- make new handles if we don't need to.
 makeHandle :: String -> Int -> Int -> IO Handle
-makeHandle mode chan num = undefined mode chan num
+makeHandle mode chan num = undefined
 
 -- | Use the resource handle to perform some action. You're free to
 -- reuse the same resource handle over and over.
 doAction :: Handle -> IO ()
-doAction handle = undefined handle
+doAction handle = undefined
