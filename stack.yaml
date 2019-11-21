@@ -3,4 +3,5 @@ packages:
   - 'abstract-effects'
   - 'has-handle'
   - 'simple'
+  - 'simple-abstract'
   - 'some-library'
