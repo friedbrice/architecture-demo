@@ -9,26 +9,26 @@ import Control.Monad.Reader
 import System.Environment
 import qualified SomeLibrary as Some
 
-data Args =
-  Args { mode :: String, chan :: Int, num :: Int }
+data Conf =
+  Conf { mode :: String, chan :: Int, num :: Int }
   deriving Read
 
-data Conf =
-  Conf { someHandle :: Some.Handle }
+data Env =
+  Env { someHandle :: Some.Handle }
 
 newtype App a =
-  App { runApp :: ReaderT Conf IO a }
-  deriving (Functor, Applicative, Monad, MonadIO, MonadReader Conf)
+  App { runApp :: ReaderT Env IO a }
+  deriving (Functor, Applicative, Monad, MonadIO, MonadReader Env)
 
-instance HasSomeHandle Conf where
+instance HasSomeHandle Env where
   getSomeHandle conf = someHandle conf
 
 main :: IO ()
 main = do
-  cliArgs <- getArgs
-  let args = read (head cliArgs)
+  args <- getArgs
+  let conf = read (head args)
 
-  handle <- Some.makeHandle (mode args) (chan args) (num args)
-  let appConf = Conf { someHandle = handle }
+  handle <- Some.makeHandle (mode conf) (chan conf) (num conf)
+  let env = Env { someHandle = handle }
 
-  runReaderT (runApp entryPoint) appConf
+  runReaderT (runApp entryPoint) env

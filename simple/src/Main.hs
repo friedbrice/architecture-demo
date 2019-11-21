@@ -7,19 +7,19 @@ import Logic
 import System.Environment
 import qualified SomeLibrary as Some
 
-data Args =
-  Args { mode :: String, chan :: Int, num :: Int }
+data Conf =
+  Conf { mode :: String, chan :: Int, num :: Int }
   deriving Read
 
-data Conf =
-  Conf { someHandle :: Some.Handle }
+data Env =
+  Env { someHandle :: Some.Handle }
 
 main :: IO ()
 main = do
-  cliArgs <- getArgs
-  let args = read (head cliArgs)
+  args <- getArgs
+  let conf = read (head args)
 
-  handle <- Some.makeHandle (mode args) (chan args) (num args)
-  let appConf = Conf { someHandle = handle }
+  handle <- Some.makeHandle (mode conf) (chan conf) (num conf)
+  let env = Env { someHandle = handle }
 
-  entryPoint (someHandle appConf)
+  entryPoint (someHandle env)
