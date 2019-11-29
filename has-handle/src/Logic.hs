@@ -12,7 +12,7 @@ someData :: [(String, Int)]
 someData = undefined
 
 someBranching ::
-  (HasSomeHandle a, MonadIO m, MonadReader a m) =>
+  (HasSomeHandle a, MonadReader a m, MonadIO m) =>
   (String -> Int -> String) ->
   [(String, Int)] ->
   m ()
@@ -22,5 +22,5 @@ someBranching f xs =
       then doSomeAction
       else return ()
 
-entryPoint :: (HasSomeHandle a, MonadIO m, MonadReader a m) => m ()
+entryPoint :: (HasSomeHandle a, MonadReader a m, MonadIO m) => m ()
 entryPoint = someBranching someProcessing someData
